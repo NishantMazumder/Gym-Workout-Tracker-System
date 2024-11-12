@@ -1,0 +1,22 @@
+/* src/pages/WorkoutPage.css */
+form {
+    margin: 20px;
+  }
+  
+  input,
+  textarea {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  button {
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+  
