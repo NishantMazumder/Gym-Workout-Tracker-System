@@ -59,14 +59,56 @@ app.get("/events/:id", (req, res) => {
 });
 
 // DELETE an event by ID
-app.delete("/events/:id", (req, res) => {
+// app.delete("/events/:id", (req, res) => {
+//   const eventId = req.params.id;
+//   const q = "DELETE FROM events WHERE Event_ID = ?";
+//   db.query(q, [eventId], (err, data) => {
+//     if (err) return res.send(err);
+//     return res.json({ message: "Event deleted successfully" });
+//   });
+// });
+
+// DELETE an event by ID
+// DELETE an event by ID
+app.delete("/events/:id", async (req, res) => {
   const eventId = req.params.id;
-  const q = "DELETE FROM events WHERE Event_ID = ?";
-  db.query(q, [eventId], (err, data) => {
-    if (err) return res.send(err);
+
+  const deleteEventQuery = "DELETE FROM events WHERE Event_ID = ?";
+  const deleteParticipatesQuery = "DELETE FROM participates WHERE Event_ID = ?";
+
+  try {
+    // First delete from participates table
+    await new Promise((resolve, reject) => {
+      db.query(deleteParticipatesQuery, [eventId], (err, result) => {
+        if (err) {
+          reject(err); // Reject if there's an error
+        } else {
+          resolve(result); // Resolve if successful
+        }
+      });
+    });
+
+    // Then delete from events table
+    await new Promise((resolve, reject) => {
+      db.query(deleteEventQuery, [eventId], (err, result) => {
+        if (err) {
+          reject(err); // Reject if there's an error
+        } else {
+          resolve(result); // Resolve if successful
+        }
+      });
+    });
+
+    // If both queries succeed, send success message
     return res.json({ message: "Event deleted successfully" });
-  });
+
+  } catch (err) {
+    // If any error occurs during the queries, send error response
+    console.error(err);
+    return res.status(500).send("Error deleting event");
+  }
 });
+
 
 // UPDATE an event by ID
 app.put("/events/:id", (req, res) => {
@@ -154,10 +196,305 @@ app.post("/login", (req, res) => {
 //   });
 // });
 
+//start#############################################
+
+// index.js
+// app.get("/workouts", (req, res) => {
+//   const userId = req.query.userId;
+  
+//   const workoutQuery = `
+//     SELECT 
+//       w.Workout_ID,
+//       w.Workout_Title,
+//       w.Description,
+//       w.Datetime,
+//       e.Exercise_ID,
+//       e.Exercise_Name,
+//       e.Exercise_Type,
+//       (SELECT COUNT(s.Set_Number) 
+//        FROM Sets s 
+//        WHERE s.Exercise_ID = e.Exercise_ID) AS NumberOfSets
+//     FROM 
+//       Workout w
+//     JOIN 
+//       Exercise e ON w.Workout_ID = e.Workout_ID
+//     WHERE 
+//       w.User_ID = ?
+//     ORDER BY 
+//       w.Workout_ID, e.Exercise_ID;
+//   `;
+
+//   db.query(workoutQuery, [userId], (err, workouts) => {
+//     if (err) {
+//       console.log(err);
+//       return res.json(err);
+//     }
+
+//     const volumePromises = workouts.map((workout) => {
+//       return new Promise((resolve, reject) => {
+//         const volumeQuery = `
+//           SELECT SUM(Sets.Reps * Sets.Weight) AS totalVolume
+//           FROM Sets
+//           JOIN Exercise ON Sets.Exercise_ID = Exercise.Exercise_ID
+//           WHERE Exercise.Workout_ID = ? AND Sets.Weight IS NOT NULL AND Sets.Reps IS NOT NULL
+//         `;
+        
+//         db.query(volumeQuery, [workout.Workout_ID], (err, result) => {
+//           if (err) return reject(err);
+          
+//           workout.totalVolume = result[0].totalVolume || 0; // Add totalVolume to workout
+          
+//           // Fetch the exercises and sets for the workout
+//           const exerciseQuery = `
+//             SELECT 
+//               e.Exercise_ID,
+//               e.Exercise_Name,
+//               e.Exercise_Type
+//               s.Set_Number, 
+//               s.Reps, 
+//               s.Weight
+//             FROM Exercise e
+//             JOIN Sets s ON e.Exercise_ID = s.Exercise_ID
+//             WHERE e.Workout_ID = ?
+//             ORDER BY e.Exercise_ID, s.Set_Number;
+//           `;
+
+//           db.query(exerciseQuery, [workout.Workout_ID], (err, exercisesAndSets) => {
+//             if (err) return reject(err);
+            
+//             // Organize the exercises and sets under each workout
+//             const exercises = exercisesAndSets.reduce((acc, curr) => {
+//               if (!acc[curr.Exercise_Name]) {
+//                 acc[curr.Exercise_Name] = [];
+//               }
+//               acc[curr.Exercise_Name].push({
+//                 Set_Number: curr.Set_Number,
+//                 Reps: curr.Reps,
+//                 Weight: curr.Weight,
+//               });
+//               return acc;
+//             }, {});
+
+//             workout.exercises = exercises;
+//             resolve(workout);
+//           });
+//         });
+//       });
+//     });
+
+//     // Wait for all volume and exercises calculations to complete
+//     Promise.all(volumePromises)
+//       .then((workoutsWithVolume) => {
+//         res.json(workoutsWithVolume);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//         res.json(err);
+//       });
+//   });
+// });
 
 // app.get("/workouts", (req, res) => {
 //   const userId = req.query.userId;
-//   const workoutQuery = "SELECT * FROM workout WHERE User_ID = ?";
+
+//   const workoutQuery = `
+//     SELECT 
+//       w.Workout_ID,
+//       w.Workout_Title,
+//       w.Description,
+//       w.Datetime,
+//       e.Exercise_ID,
+//       e.Exercise_Name,
+//       e.Exercise_Type,
+//       (SELECT COUNT(s.Set_Number) 
+//        FROM Sets s 
+//        WHERE s.Exercise_ID = e.Exercise_ID) AS NumberOfSets
+//     FROM 
+//       Workout w
+//     JOIN 
+//       Exercise e ON w.Workout_ID = e.Workout_ID
+//     WHERE 
+//       w.User_ID = ?
+//     ORDER BY 
+//       w.Workout_ID, e.Exercise_ID;
+//   `;
+
+//   db.query(workoutQuery, [userId], (err, workouts) => {
+//     if (err) {
+//       console.log(err);
+//       return res.json(err);
+//     }
+
+//     const volumePromises = workouts.map((workout) => {
+//       return new Promise((resolve, reject) => {
+//         const volumeQuery = `
+//           SELECT SUM(s.Reps * s.Weight) AS totalVolume
+//           FROM Sets s
+//           JOIN Exercise e ON e.Exercise_ID = s.Exercise_ID
+//           WHERE e.Workout_ID = ? AND s.Weight IS NOT NULL AND s.Reps IS NOT NULL
+//         `;
+        
+//         db.query(volumeQuery, [workout.Workout_ID], (err, result) => {
+//           if (err) return reject(err);
+
+//           workout.totalVolume = result[0].totalVolume || 0; // Add totalVolume to workout
+
+//           // Fetch the exercises and sets for the workout
+//           const exerciseQuery = `
+//             SELECT 
+//               e.Exercise_ID,
+//               e.Exercise_Name,
+//               e.Exercise_Type,
+//               s.Set_Number, 
+//               s.Reps, 
+//               s.Weight
+//             FROM Exercise e
+//             JOIN Sets s ON e.Exercise_ID = s.Exercise_ID
+//             WHERE e.Workout_ID = ?
+//             ORDER BY e.Exercise_ID, s.Set_Number;
+//           `;
+
+//           db.query(exerciseQuery, [workout.Workout_ID], (err, exercisesAndSets) => {
+//             if (err) return reject(err);
+
+//             // Organize the exercises and sets under each workout
+//             const exercises = exercisesAndSets.reduce((acc, curr) => {
+//               if (!acc[curr.Exercise_ID]) {
+//                 acc[curr.Exercise_ID] = [];
+//               }
+//               acc[curr.Exercise_ID].push({
+//                 Set_Number: curr.Set_Number,
+//                 Reps: curr.Reps,
+//                 Weight: curr.Weight,
+//               });
+//               return acc;
+//             }, {});
+
+//             workout.exercises = exercises;
+//             resolve(workout);
+//           });
+//         });
+//       });
+//     });
+
+//     // Wait for all volume and exercises calculations to complete
+//     Promise.all(volumePromises)
+//       .then((workoutsWithVolume) => {
+//         res.json(workoutsWithVolume);
+//       })
+//       .catch((err) => {
+//         console.log(err);
+//         res.json(err);
+//       });
+//   });
+// });
+
+app.get("/workouts", (req, res) => {
+  const userId = req.query.userId;
+
+  const workoutQuery = `
+    SELECT 
+      w.Workout_ID,
+      w.Workout_Title,
+      w.Description,
+      w.Datetime,
+      e.Exercise_ID,
+      e.Exercise_Name,
+      (SELECT COUNT(s.Set_Number) 
+       FROM Sets s 
+       WHERE s.Exercise_ID = e.Exercise_ID) AS NumberOfSets
+    FROM 
+      Workout w
+    JOIN 
+      Exercise e ON w.Workout_ID = e.Workout_ID
+    WHERE 
+      w.User_ID = ?
+    ORDER BY 
+      w.Workout_ID, e.Exercise_ID;
+  `;
+
+  db.query(workoutQuery, [userId], (err, workouts) => {
+    if (err) {
+      console.log(err);
+      return res.json(err);
+    }
+
+    // Structure the data to group exercises by Workout_ID
+    const groupedWorkouts = workouts.reduce((acc, workout) => {
+      const workoutId = workout.Workout_ID;
+      if (!acc[workoutId]) {
+        acc[workoutId] = {
+          ...workout,
+          exercises: []
+        };
+      }
+      acc[workoutId].exercises.push({
+        name: workout.Exercise_Name,
+        sets: workout.NumberOfSets
+      });
+      return acc;
+    }, {});
+
+    // Convert grouped data back into an array
+    const formattedWorkouts = Object.values(groupedWorkouts);
+
+    // Calculate the total volume for each workout
+    const volumePromises = formattedWorkouts.map((workout) => {
+      return new Promise((resolve, reject) => {
+        const volumeQuery = `
+          SELECT SUM(s.Reps * s.Weight) AS totalVolume
+          FROM Sets s
+          JOIN Exercise e ON s.Exercise_ID = e.Exercise_ID
+          WHERE e.Workout_ID = ? AND s.Weight IS NOT NULL AND s.Reps IS NOT NULL
+        `;
+
+        db.query(volumeQuery, [workout.Workout_ID], (err, result) => {
+          if (err) return reject(err);
+
+          // Add the total volume to the workout object
+          workout.totalVolume = result[0] && result[0].totalVolume ? result[0].totalVolume : 0;
+          resolve(workout);
+        });
+      });
+    });
+
+    // Wait for all volume calculations to complete
+    Promise.all(volumePromises)
+      .then((workoutsWithVolume) => {
+        res.json(workoutsWithVolume);
+      })
+      .catch((err) => {
+        console.log(err);
+        res.json(err);
+      });
+  });
+});
+
+
+//end#############################################
+
+// app.get("/workouts", (req, res) => {
+//   const userId = req.query.userId;
+//   // const workoutQuery = "SELECT * FROM workout WHERE User_ID = ?";
+//   const workoutQuery = `SELECT 
+//     w.Workout_ID,
+//     w.Workout_Title,
+//     w.Description,
+//     w.Datetime,
+//     e.Exercise_ID,
+//     e.Exercise_Name,
+//     (SELECT COUNT(s.Set_Number) 
+//      FROM Sets s 
+//      WHERE s.Exercise_ID = e.Exercise_ID) AS NumberOfSets
+// FROM 
+//     Workout w
+// JOIN 
+//     Exercise e ON w.Workout_ID = e.Workout_ID
+// WHERE 
+//     w.User_ID = ?
+// ORDER BY 
+//     w.Workout_ID, e.Exercise_ID;
+// `;
 
 //   db.query(workoutQuery, [userId], (err, workouts) => {
 //     if (err) {
@@ -196,7 +533,7 @@ app.post("/login", (req, res) => {
 //   });
 // }); 
 
-//legitttt  above one
+//legitttt  above one---------
 // app.get("/workouts", (req, res) => {
 //   const userId = req.query.userId;
 //   const workoutQuery = "SELECT * FROM workout WHERE User_ID = ?";
@@ -217,7 +554,7 @@ app.post("/login", (req, res) => {
 //     const volumePromises = workouts.map((workout) => {
 //       return new Promise((resolve, reject) => {
 //         // Run the procedure and get total volume
-//         db.query("CALL CalculateVolume(?);", [workout.Workout_ID], (err, results) => {
+//         db.query("CALL CalculateVolume(?, @totalVolume); SELECT @totalVolume;", [workout.Workout_ID], (err, results) => {
 //           if (err) return reject(err);
 
 //           // Get the totalVolume from the first result set (from the stored procedure output)
@@ -507,18 +844,53 @@ app.get("/participants/:eventId", (req, res) => {
 });
 
 
+
+
 // GET user profile information by User ID
+// app.get("/users/:userId", (req, res) => {
+//   const userId = req.params.userId;
+
+//   const query = "SELECT User_ID, Username, Email FROM User WHERE User_ID = ?";
+  
+//   db.query(query, [userId], (err, data) => {
+//     if (err) return res.status(500).json(err);
+//     if (data.length === 0) return res.status(404).json({ message: "User not found" });
+//     return res.json(data[0]);
+//   });
+// });
+
 app.get("/users/:userId", (req, res) => {
   const userId = req.params.userId;
 
-  const query = "SELECT User_ID, Username, Email FROM User WHERE User_ID = ?";
+  const userQuery = "SELECT User_ID, Username, Email FROM User WHERE User_ID = ?";
   
-  db.query(query, [userId], (err, data) => {
-    if (err) return res.status(500).json(err);
-    if (data.length === 0) return res.status(404).json({ message: "User not found" });
-    return res.json(data[0]);
+  db.query(userQuery, [userId], (err, userData) => {
+      if (err) return res.status(500).json(err);
+      if (userData.length === 0) return res.status(404).json({ message: "User not found" });
+
+      // Call stored procedure to get workout count and names for the user
+      const workoutQuery = "CALL GetUserWorkout(?)";
+      
+      db.query(workoutQuery, [userId], (err, result) => {
+          if (err) return res.status(500).json(err);
+            // Ensure result contains the expected data
+            const workoutCount = result[0][0].WorkoutCount || 0;  // Extract workout count
+            const workoutNames = result[1].map((row) => row.Workout_Title) || []; // Extract workout titles
+
+          // // Combine user data and workout details
+          const userInfo = {
+              ...userData[0],
+              WorkoutCount: workoutCount,
+              WorkoutNames: workoutNames,
+          };
+          return res.json(userInfo);
+      });
   });
 });
+
+
+
+
 
 
 app.listen(8100, () => {

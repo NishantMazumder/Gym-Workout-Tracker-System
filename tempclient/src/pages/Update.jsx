@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import "./Update.css"
+
 
 const Update = () => {
   const { id } = useParams();
@@ -39,7 +41,7 @@ const Update = () => {
     e.preventDefault();
     try {
       await axios.put(`http://localhost:8100/events/${id}`, event);
-      navigate("/"); // Redirect back to the events list
+      navigate("/events"); // Redirect back to the events list
     } catch (err) {
       console.log("Error updating event:", err);
       setError(true);
@@ -71,7 +73,7 @@ const Update = () => {
         value={event.Event_Description}
       />
       <input
-        type="date"
+        type="datetime-local"
         placeholder="Event Schedule"
         name="Event_Schedule"
         onChange={handleChange}

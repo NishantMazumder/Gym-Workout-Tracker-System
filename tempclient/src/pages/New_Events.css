@@ -1,0 +1,164 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Container for the form */
+  /* div {
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  } */
+  
+  /* Heading for the form */
+  h1 {
+    text-align: center;
+    color: #333;
+  }
+  
+  /* Section titles */
+  h2, h3 {
+    color: #555;
+  }
+  
+  /* Labels */
+  label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  /* Input fields */
+  input[type="text"],
+  input[type="number"],
+  input[type="datetime-local"],
+  textarea,
+  select {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+  }
+  
+  /* Button Styles */
+  button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  button[type="button"] {
+    background-color: #007BFF;
+    color: white;
+  }
+  
+  button[type="button"]:hover,
+  button[type="submit"]:hover {
+    background-color: #45a049;
+  }
+  
+  /* Red color button for remove actions */
+  button[style*="background-color: red"] {
+    background-color: #ff4d4d;
+  }
+  
+  button[style*="background-color: blue"] {
+    background-color: #007BFF;
+  }
+  
+  button[style*="background-color: red"]:hover,
+  button[style*="background-color: blue"]:hover {
+    background-color: #ff0000;
+  }
+  
+  /* Exercise Section */
+  .exercise-section {
+    background-color: #f1f1f1;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+  }
+  
+  .exercise-section input,
+  .exercise-section select {
+    margin-bottom: 10px;
+  }
+  
+  /* Styling for exercises and sets */
+  .exercise-section div {
+    margin-bottom: 1em;
+    padding: 10px;
+    border: 1px solid #ccc;
+    background-color: #D3D3D3;
+  }
+  
+  .exercise-section button {
+    margin-top: 10px;
+    background-color: #28a745;
+    color: white;
+  }
+  
+  .exercise-section button[type="button"]:hover {
+    background-color: #0056b3;
+  }
+  
+  .remove-exercise-button,
+  .remove-set-button {
+    background-color: #ff4d4d;
+    color: white;
+    margin-top: 10px;
+  }
+  
+  .remove-exercise-button:hover,
+  .remove-set-button:hover {
+    background-color: #ff0000;
+  }
+  
+  /* Input padding for smaller fields */
+  input[type="text"],
+  input[type="number"],
+  input[type="datetime-local"],
+  textarea,
+  select {
+    padding: 10px;
+  }
+  
+  /* General Margin and Padding adjustments */
+  div > div {
+    margin-bottom: 20px;
+  }
+  
+  button[type="submit"] {
+    margin-top: 20px;
+  }
+  
+  /* Responsiveness */
+  @media (max-width: 768px) {
+    div {
+      padding: 15px;
+    }
+  
+    input[type="text"],
+    input[type="number"],
+    textarea,
+    select {
+      width: 100%;
+    }
+  }

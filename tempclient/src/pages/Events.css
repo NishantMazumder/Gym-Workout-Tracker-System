@@ -1,88 +1,92 @@
 /* Center the heading */
 h1 {
-    text-align: center;
-    font-size: 2rem;
-    margin-top: 20px;
-    color: #333;
-  }
-  
-  /* Container for all events */
-  .events {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  /* Style for each event box */
-  .event {
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adding shadow */
-    margin: 10px;
-    padding: 20px;
-    width: 250px;
-    transition: box-shadow 0.3s ease-in-out;
-  }
-  
-  /* Hover effect for event boxes */
-  .event:hover {
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Increase shadow on hover */
-  }
-  
-  /* Style for event titles */
-  .event h2 {
-    font-size: 1.5rem;
-    color: #2c3e50;
-    margin-bottom: 10px;
-  }
-  
-  /* Style for event paragraphs */
-  .event p {
-    font-size: 1rem;
-    color: #7f8c8d;
-    margin-bottom: 8px;
-  }
-  
-  /* Admin buttons styling */
-  button {
-    background-color: #3498db;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    margin-top: 10px;
-    width: 100%;
-  }
-  
-  button:hover {
-    background-color: #2980b9;
-  }
-  
-  /* Link styling for buttons */
-  button a {
-    text-decoration: none;
-    color: inherit;
-  }
-  
-  /* Add a margin to the add new event button */
-  .addHome {
-    display: block;
-    margin: 20px auto;
-    padding: 10px 20px;
-    background-color: #2ecc71;
-    color: white;
-    font-size: 1.1rem;
-    border: none;
-    border-radius: 5px;
-    text-align: center;
-    cursor: pointer;
-    width: 200px;
-  }
-  
-  .addHome:hover {
-    background-color: #27ae60;
-  }
-  
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 20px;
+  color: white;
+}
+
+/* Container for all events */
+.events {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+/* Style for each event box */
+.event {
+  background-color:white;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Adding shadow */
+  margin: 10px;
+  padding: 20px;
+  width: 250px;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+/* Hover effect for event boxes */
+.event:hover {
+  box-shadow: 0 10px 20px rgba(76, 172, 220, 0.7); /* Increase shadow on hover */
+}
+
+/* Style for event titles */
+.event h2 {
+  color: red;
+  font-size: 1.5rem;
+  /* color: #2c3e50; */
+  margin-bottom: 10px;
+}
+
+/* Style for event paragraphs */
+.event p {
+  font-size: 1rem;
+  color: #7f8c8d;
+  margin-bottom: 8px;
+}
+
+/* Admin buttons styling */
+button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  margin-top: 10px;
+  width: 100%;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+/* Link styling for buttons */
+button a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Add a margin to the add new event button */
+.addHome {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  background-color: #2ecc71;
+  color: white;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 5px;
+  text-align: center;
+  cursor: pointer;
+  width: 200px;
+}
+
+.addHome:hover {
+  background-color: #27ae60;
+}
+
+div.background{
+  color:black;
+}

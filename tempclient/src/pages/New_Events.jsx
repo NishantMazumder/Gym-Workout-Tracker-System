@@ -2,7 +2,8 @@
     import axios from "axios";
     import React, { useState } from "react";
     import { useNavigate, Link } from "react-router-dom";
-    
+    import "./New_Events.css"
+
     const New_event = () => {
       const [event, setEvent] = useState({
         Event_Name: "",
@@ -34,7 +35,7 @@
           const res = await axios.post("http://localhost:8100/events", eventWithTime);
           console.log("New event response:", res.data);
           if (res.data) {
-            navigate("/");
+            navigate("/events");
           } else {
             console.error("Error creating event:", res.data);
             setError(true);
@@ -74,7 +75,7 @@
             value={event.Event_Description}
           />
           <input
-            type="date"
+            type="datetime-local"
             placeholder="Event Schedule"
             name="Event_Schedule"
             onChange={handleChange}
@@ -89,7 +90,7 @@
           />
           <button onClick={handleClick}>Add</button>
           {error && "Something went wrong!"}
-          {<Link to="/">See all events</Link>}
+          {<Link to="/events">See all events</Link>}
         </div>
       );
     };

@@ -1,0 +1,70 @@
+/* Update Event Form Styles */
+.form {
+    max-width: 600px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  }
+  
+  .form h1 {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color:black;
+  }
+  
+  .form input,
+  .form textarea,
+  .form button {
+    width: 95%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+  }
+  
+  .form input[type="text"],
+  .form textarea {
+    background-color: #fff;
+  }
+  
+  .form input[type="datetime-local"] {
+    background-color: #fff;
+  }
+  
+  .form button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    
+  }
+  
+  .form button:hover {
+    background-color: #45a049;
+  }
+  
+  .form button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+  }
+  
+  .form .error-message {
+    color: red;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 10px;
+  }
+  
+  .form .cancel-button {
+    background-color: #f44336;
+  }
+  
+  .form .cancel-button:hover {
+    background-color: #e53935;
+  }
