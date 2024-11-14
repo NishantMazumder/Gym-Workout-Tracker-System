@@ -400,6 +400,7 @@ app.get("/workouts", (req, res) => {
       w.Datetime,
       e.Exercise_ID,
       e.Exercise_Name,
+      e.Note,
       (SELECT COUNT(s.Set_Number) 
        FROM Sets s 
        WHERE s.Exercise_ID = e.Exercise_ID) AS NumberOfSets
@@ -430,6 +431,7 @@ app.get("/workouts", (req, res) => {
       }
       acc[workoutId].exercises.push({
         name: workout.Exercise_Name,
+        note: workout.Note,
         sets: workout.NumberOfSets
       });
       return acc;
