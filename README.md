@@ -24,3 +24,5 @@
 ### Make sure to run these commands in the frontend directory
 
 npm i, npm i express cors mysql nodemon 
+
+###Run npm i in both Backend and Frontend directory to get node modules
