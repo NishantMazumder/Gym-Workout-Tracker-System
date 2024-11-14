@@ -14,7 +14,7 @@ const Navbar = () => {
 
   return (
     <nav className="navbar">
-      <h2 className="navbar-logo">GYM Workout Tracker</h2>
+      <h2 className="navbar-logo">Gym Workout Tracker System</h2>
       <ul className="navbar-links">
         <li>
           <Link to="/Workouts">Dashboard</Link>
