@@ -21,3 +21,6 @@
 - NodeJS and ExpressJS (Backend)
 - MySQL (database)
 
+### Make sure to run these commands in the frontend directory
+
+npm i, npm i express cors mysql nodemon 
